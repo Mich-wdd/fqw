@@ -11,7 +11,7 @@ class Position:
         self.text = text
 
     def point(self):
-        return (self.x, self.y)
+        return self.x, self.y
 
     def display(self, screen, color):
         text = font.render(self.text, True, color)

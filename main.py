@@ -79,11 +79,6 @@ speed = 0.005
 acceleration = 0.001
 omega = 0.005
 
-# max_x = max(robot_coordinates.x, robot_final_coordinates.x, p1.x, p2.x)
-# min_x = min(robot_coordinates.x, robot_final_coordinates.x, p1.x, p2.x)
-# max_y = max(robot_coordinates.y, robot_final_coordinates.y, p1.y, p2.y)
-# min_y = min(robot_coordinates.y, robot_final_coordinates.y, p1.y, p2.y)
-
 run = True
 go = False
 initial_turn = 0
@@ -125,7 +120,6 @@ while run:
                         if not 0 < p1.y < height:
                             if p1.y < 0:
                                 if 0 < phi < math.pi / 2 or flag == 1:
-                                    print('p1.y < 0; phi < math.pi / 2 or flag == 1')
                                     p1 = Position(
                                         robot_coordinates.x + math.sqrt(
                                             vector ** 2 - (robot_coordinates.y - robot_radius) ** 2),
@@ -137,7 +131,6 @@ while run:
                                         phi = math.acos((p1.x - robot_coordinates.x) / vector)
                                         continue
                                 if math.pi > phi > math.pi / 2 or flag == 2:
-                                    print('p1.y < 0; phi > math.pi / 2 or flag == 2')
                                     p1 = Position(
                                         robot_coordinates.x - math.sqrt(
                                             vector ** 2 - (robot_coordinates.y - robot_radius) ** 2),
@@ -150,21 +143,17 @@ while run:
                                         continue
                             elif p1.y > height:
                                 if math.pi < phi < 3 * math.pi / 2 or flag == 1:
-                                    print('p1.y > height; phi < 3 * math.pi / 2 or flag == 1')
-                                    print("(", p1.x, p1.y, ")", "(", p1_old.x, p1_old.y, ")", flag)
                                     p1 = Position(
                                         robot_coordinates.x - math.sqrt(
                                             vector ** 2 - (height - robot_radius - robot_coordinates.y) ** 2),
                                         height - robot_radius)
                                     if not re_checking(p1, p1_old):
                                         flag = 2
-                                        print("(", p1.x, p1.y, ")", "(", p1_old.x, p1_old.y, ")", flag)
                                     else:
                                         initial_turn = 1
                                         phi = math.acos((p1.x - robot_coordinates.x) / vector)
                                         continue
                                 if 2 * math.pi > phi > 3 * math.pi / 2 or flag == 2:
-                                    print('p1.y > height; phi > 3 * math.pi / 2 or flag == 2')
                                     p1 = Position(
                                         robot_coordinates.x + math.sqrt(
                                             vector ** 2 - (height - robot_radius - robot_coordinates.y) ** 2),
@@ -179,43 +168,34 @@ while run:
                         elif not 0 < p1.x < width:
                             if p1.x < 0:
                                 if math.pi / 2 < phi < math.pi or flag == 1:
-                                    print('p1.x < 0; phi < math.pi or flag == 1')
-                                    print("(", p1.x, p1.y, ")", "(", p1_old.x, p1_old.y, ")", flag)
                                     p1 = Position(robot_radius, robot_coordinates.y - math.sqrt(
                                         vector ** 2 - (robot_coordinates.x - robot_radius) ** 2))
                                     if not re_checking(p1, p1_old):
                                         flag = 2
-                                        print("(", p1.x, p1.y, ")", "(", p1_old.x, p1_old.y, ")", flag)
                                     else:
                                         initial_turn = 1
                                         phi = math.acos((p1.x - robot_coordinates.x) / vector)
                                         continue
                                 if 3 * math.pi / 2 > phi > math.pi or flag == 2:
-                                    print('p1.x < 0; phi > math.pi or flag == 2')
-                                    print("(", p1.x, p1.y, ")", "(", p1_old.x, p1_old.y, ")", flag)
                                     p1 = Position(robot_radius, robot_coordinates.y + math.sqrt(
                                         vector ** 2 - (robot_coordinates.x - robot_radius) ** 2))
                                     if not re_checking(p1, p1_old):
                                         flag = 1
-                                        print("(", p1.x, p1.y, ")", "(", p1_old.x, p1_old.y, ")", flag)
                                     else:
                                         initial_turn = 2
                                         phi = 2 * math.pi - math.acos((p1.x - robot_coordinates.x) / vector)
                                         continue
                             if p1.x > width:
                                 if 0 < phi < math.pi / 2 or flag == 1:
-                                    print('p1.x > width; 0 < phi < math.pi / 2 or flag == 1')
                                     p1 = Position(width - robot_radius, robot_coordinates.y - math.sqrt(
                                         vector ** 2 - (width - robot_coordinates.x - robot_radius) ** 2))
                                     if not re_checking(p1, p1_old):
                                         flag = 2
-                                        print("(", p1.x, p1.y, ")", "(", p1_old.x, p1_old.y, ")", flag)
                                     else:
                                         initial_turn = 2
                                         phi = 2 * math.pi - math.acos((p1.x - robot_coordinates.x) / vector)
                                         continue
                                 if 3 * math.pi / 2 < phi < 2 * math.pi or flag == 2:
-                                    print('p1.x > width; 3 * math.pi / 2 < phi < 2 * math.pi or flag == 2')
                                     p1 = Position(width - robot_radius, robot_coordinates.y + math.sqrt(
                                         vector ** 2 - (width - robot_coordinates.x - robot_radius) ** 2))
                                     if not re_checking(p1, p1_old):
@@ -227,11 +207,7 @@ while run:
                         print(angle, start_phi, phi, math.degrees(phi))
 
     if initial_turn != 0:
-        # print(0, math.pi/2, math.pi, 3*math.pi/2, 2*math.pi)
         if initial_turn == 1:
-            # if start_phi < phi and angle < phi:
-            #     angle -= 2*math.pi
-            # print('hi')
             angle = angle - omega
             if angle <= phi:
                 angle = phi
@@ -240,7 +216,6 @@ while run:
         elif initial_turn == 2:
             if start_phi > phi and angle > phi:
                 angle -= 2 * math.pi
-            print('hi2')
             angle = angle + omega
             if angle >= phi:
                 angle = phi
@@ -251,19 +226,11 @@ while run:
         pygame.draw.line(screen, blue, robot_coordinates.point(), direction_end, 3)
 
     if not start and not end:
-        # screen.fill(white)
-        # pygame.draw.line(screen, (0, 0, 0), gates[0], gates[1], 3)
-        # pygame.draw.line(screen, (0, 0, 0), (gates[0][0] - 10, gates[0][1]), (gates[0][0] + 10, gates[0][1]), 3)
-        # pygame.draw.line(screen, (0, 0, 0), (gates[1][0] - 10, gates[1][1]), (gates[1][0] + 10, gates[1][1]), 3)
-        # pygame.draw.circle(screen, green, ball_coordinates, ball_radius)
 
         draw_cubic_curve(cubic_positions, t, screen, red, cubic_curve, green, blue, curve1, curve2, curve3,
                          robot_radius)
 
         if len(cubic_curve) > 2:
-            # pygame.draw.lines(screen, (179, 179, 179), False, curve1, 3)
-            # pygame.draw.lines(screen, (179, 179, 179), False, curve3, 3)
-            # pygame.draw.lines(screen, (179, 179, 179), False, curve2, 3)
             pygame.draw.lines(screen, red, False, cubic_curve, 5)
 
         if t >= 1:
